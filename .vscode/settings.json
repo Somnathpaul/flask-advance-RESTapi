@@ -1,3 +1,7 @@
 {
-    "python.pythonPath": "/Users/somnathpaul/.local/share/virtualenvs/restapi-ZHQBJhvn/bin/python"
+    "python.pythonPath": "/Users/somnathpaul/.local/share/virtualenvs/restapi-ZHQBJhvn/bin/python",
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint-flask"
+    ]
 }
