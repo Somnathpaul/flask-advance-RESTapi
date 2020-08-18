@@ -8,12 +8,18 @@ api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 
+names = {"python": {"in_use": "true", "version": "3.7"},
+        "flask": {"in_sue": "true", "version": "1.1.2"},
+        "django": {"in_sue": "false", "version": "none"}
+       }
+
+
 class Jk(Resource):
-    def get(self):
-        return {"data":"hello world"}
+    def get(self, name):
+        return names[name]
 
 # define route 
-api.add_resource(Jk, "/jk")
+api.add_resource(Jk, "/jk/<string:name>")
 
 if __name__ == "__main__":
 	app.run(debug=True)
