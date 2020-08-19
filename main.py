@@ -8,11 +8,12 @@ api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 
+# validating data passed through url
 video_put_arg = reqparse.RequestParser()
-video_put_arg.add_argument("name", type=str , help={"Wrong data! Missing name."})
-video_put_arg.add_argument("views", type=int , help={"Wrong data! Missing views."})
-video_put_arg.add_argument("likes", type=int , help={"Wrong data! Missing likes."})
-video_put_arg.add_argument("dislikes", type=int , help={"Wrong data! Missing dislikes."})
+video_put_arg.add_argument("name", type=str , help="Wrong data! Missing name", required=True)
+video_put_arg.add_argument("views", type=int , help="Wrong data! Missing views", required=True)
+video_put_arg.add_argument("likes", type=int , help="Wrong data! Missing likes", required=True)
+video_put_arg.add_argument("dislikes", type=int , help="Wrong data! Missing dislikes", required=True)
 
 
 
@@ -25,8 +26,8 @@ class Video(Resource):
         return videos[video_id]
 
     def put(self, video_id):
-        print(request.form['likes'])
-        return {"ok": "21"}
+        args = video_put_arg.parse_args()
+        return {video_id: args}
 
 
 
