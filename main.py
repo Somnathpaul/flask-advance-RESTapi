@@ -10,8 +10,8 @@ db = SQLAlchemy(app)
 
 # validating data passed through url
 video_put_arg = reqparse.RequestParser()
-video_put_arg.add_argument("views", type=int , help="Wrong data! Missing views")
-video_put_arg.add_argument("likes", type=int , help="Wrong data! Missing likes")
+video_put_arg.add_argument("likes", type=int, help="Wrong data! Missing likes", required=True)
+video_put_arg.add_argument("views", type=int, help="Wrong data! Missing views", required=True)
 
 
 
@@ -19,11 +19,22 @@ videos = {
        }
 
 
+# if wrong api get called , it will throw an error message with status code
+def no_video_id(video_id) :
+    if video_id not in videos:
+        abort(404, message='Error: Video id not valid')
+
+
+
+
 class Video(Resource):
     def get(self, video_id):
+        # if wrong api called 
+        no_video_id(video_id)
+        
         return videos[video_id]
 
-    def put(self, video_id):
+    def post(self, video_id):
         args = video_put_arg.parse_args()
         videos[video_id] = args
         return videos[video_id]
