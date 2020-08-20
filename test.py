@@ -2,23 +2,53 @@ import requests
 
 BASE = "http://127.0.0.1:5000/"
 
+data = [
+        {'views': 1000, "likes": 10},
+        {'views': 12, "likes": 1},
+        {'views': 150000, "likes": 198},
+        {'views': 19798, "likes": 1}
+       ]
 
-response = requests.post(BASE + "video/1",{'views': 1000, "likes": 10})
 
-print("POST")
-print("Data : ",response.json())
-print("Status code : ", response.status_code)
-print("Encoding : " ,response.encoding)
-print("Header : " , response.headers['content-type'])
-print("---------------------")
+for i  in range(len(data)):
+    response = requests.post(BASE + "video/" + str(i),data[i])
+
+    print("POST")
+    print("Data : ",response.json())
+    print("Status code : ", response.status_code)
+    print("Encoding : " ,response.encoding)
+    print("Header : " , response.headers['content-type'])
+    print("---------------------")
 
 input()
 
-response = requests.get(BASE + "video/1")
+response = requests.get(BASE + "video/3")
 
 print("GET")
 print("Data : ",response.json())
 print("Status code : ",response.status_code)
 print("Encoding : ",response.encoding)
 print("Headers : ",response.headers['content-type'])
-print("End")
+print("---------------------")
+
+input()
+
+response = requests.delete(BASE + "video/2")
+
+print("DELETE")
+print("Data : ",response.json())
+print("Status code : ",response.status_code)
+print("Encoding : ",response.encoding)
+print("Headers : ",response.headers['content-type'])
+print("---------------------")
+
+input()
+
+response = requests.get(BASE + "video/2")
+
+print("GET")
+print("Data : ",response.json())
+print("Status code : ",response.status_code)
+print("Encoding : ",response.encoding)
+print("Headers : ",response.headers['content-type'])
+print("---------------------")

@@ -25,19 +25,34 @@ def no_video_id(video_id) :
         abort(404, message='Error: Video id not valid')
 
 
-
+# if video id already exists then throw an error
+def video_id_exists(video_id):
+    if video_id in videos:
+        abort(400, message="Error: Video id already exists")
 
 class Video(Resource):
     def get(self, video_id):
         # if wrong api called 
         no_video_id(video_id)
-        
+
         return videos[video_id]
 
     def post(self, video_id):
+        # if video id exists 
+        video_id_exists(video_id)
+
         args = video_put_arg.parse_args()
         videos[video_id] = args
         return videos[video_id]
+
+    def delete(self, video_id):
+        # if wrong api called 
+        no_video_id(video_id)
+        # if exits then delete video id with its data
+        del videos[video_id]
+        
+        return 'Video data deleted', 200
+
 
 
 
