@@ -10,10 +10,8 @@ db = SQLAlchemy(app)
 
 # validating data passed through url
 video_put_arg = reqparse.RequestParser()
-video_put_arg.add_argument("name", type=str , help="Wrong data! Missing name", required=True)
-video_put_arg.add_argument("views", type=int , help="Wrong data! Missing views", required=True)
-video_put_arg.add_argument("likes", type=int , help="Wrong data! Missing likes", required=True)
-video_put_arg.add_argument("dislikes", type=int , help="Wrong data! Missing dislikes", required=True)
+video_put_arg.add_argument("views", type=int , help="Wrong data! Missing views")
+video_put_arg.add_argument("likes", type=int , help="Wrong data! Missing likes")
 
 
 
@@ -27,7 +25,8 @@ class Video(Resource):
 
     def put(self, video_id):
         args = video_put_arg.parse_args()
-        return {video_id: args}
+        videos[video_id] = args
+        return videos[video_id]
 
 
 

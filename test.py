@@ -3,5 +3,18 @@ import requests
 BASE = "http://127.0.0.1:5000/"
 
 
-response = requests.put(BASE + "video/1", {"likes": 10}, {"name": "python 3"},{"views": 1000}, {"dislikes": 0})
-print(response.json())
+response = requests.put(BASE + "video/1", {"likes": 1000})
+print("PUT")
+print("Data : ",response.json())
+print("Status code : ", response.status_code)
+print("Encoding : " ,response.encoding)
+print("Header : " , response.headers['content-type'])
+print("---------------------")
+input()
+response = requests.get(BASE + "video/1")
+print("GET")
+print("Data : ",response.json())
+print("Status code : ",response.status_code)
+print("Encoding : ",response.encoding)
+print("Headers : ",response.headers['content-type'])
+print("End")
