@@ -26,46 +26,56 @@ video_put_arg.add_argument("names", type=str, help="Wrong data! Missing name", r
 video_put_arg.add_argument("likes", type=int, help="Wrong data! Missing likes", required=True)
 video_put_arg.add_argument("views", type=int, help="Wrong data! Missing views", required=True)
 
+# how the function will throw out the data 
+resource_fields = {
+    'id': fields.Integer,
+    'name': fields.String,
+    'views': fields.String,
+    'likes': fields.String
+}
+
+# working without database
+#videos = {}
 
 
-videos = {
-       }
 
-
-# if wrong api get called , it will throw an error message with status code
-def no_video_id(video_id) :
-    if video_id not in videos:
-        abort(404, message='Error: Video id not valid')
-
-
-# if video id already exists then throw an error
-def video_id_exists(video_id):
-    if video_id in videos:
-        abort(400, message="Error: Video id already exists")
 
 class Video(Resource):
+    # resource fields called so that it returns json format
+    @marshal_with(resource_fields)
     def get(self, video_id):
-        # if wrong api called 
-        no_video_id(video_id)
-
-        return videos[video_id]
+        # get video details through id 
+        result = VideoModel.query.get(id = video_id)
+        # if video not found
+        if result is None :
+            abort(404, 'Video not found')
+        return result
 
     def post(self, video_id):
-        # if video id exists 
-        video_id_exists(video_id)
-
+        # resource fields called so that it returns json format
+        @marshal_with(resource_fields)
         args = video_put_arg.parse_args()
-        videos[video_id] = args
-        return videos[video_id]
+        # check if the video is already taken or not
+        result = VideoModel.query.filter_by(id=video_id).first()
+        # if taken throw error
+        if result : 
+            abort(409, 'Video id already taken')
+        
+        video_data = VideoModel(id=video_id, name=args['name'], views=args['views'], likes=args['likes'])
+        db.session.add(video_data)
+		db.session.commit()
+        return video_data
 
     def delete(self, video_id):
-        # if wrong api called 
-        no_video_id(video_id)
-        # if exits then delete video id with its data
-        del videos[video_id]
+        result = VideoModel.query.filter_by(id = video_id).first()
+        if result: 
+            del videos[video_id]
+            return 'Video deleted'
         
-        return 'Video data deleted', 200
+        abort(204, 'Video id not available')
 
+
+# working with the database 
 
 
 
