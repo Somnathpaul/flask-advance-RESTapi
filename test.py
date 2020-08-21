@@ -3,10 +3,10 @@ import requests
 BASE = "http://127.0.0.1:5000/"
 
 data = [
-        {'views': 1000, "likes": 10},
-        {'views': 12, "likes": 1},
-        {'views': 150000, "likes": 198},
-        {'views': 19798, "likes": 1}
+        {'name': 'python tutorial','views': 1000, "likes": 10},
+        {'name': 'ruby tutorial','views': 12, "likes": 1},
+        {'name': 'nodejs tutorial','views': 150000, "likes": 198},
+        {'name': 'c++ tutorial','views': 19798, "likes": 1}
        ]
 
 

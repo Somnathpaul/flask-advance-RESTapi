@@ -8,8 +8,21 @@ api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 
+# db model 
+class VideoModel(db.Model):
+    id = db.Column(db.Integer, primary_key =True)
+    name = db.Column(db.String(100), nullable = False)
+    views = db.Column(db.Integer, nullable = False)
+    likes = db.Column(db.Integer, nullable = False)
+
+    def __repr__(self):
+        return f"Video(name = {name}, views = {views}, likes = {likes})"
+
+# db.create_all()
+
 # validating data passed through url
 video_put_arg = reqparse.RequestParser()
+video_put_arg.add_argument("names", type=str, help="Wrong data! Missing name", required=True)
 video_put_arg.add_argument("likes", type=int, help="Wrong data! Missing likes", required=True)
 video_put_arg.add_argument("views", type=int, help="Wrong data! Missing views", required=True)
 
