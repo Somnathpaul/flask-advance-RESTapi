@@ -52,3 +52,25 @@ print("Status code : ",response.status_code)
 print("Encoding : ",response.encoding)
 print("Headers : ",response.headers['content-type'])
 print("---------------------")
+
+input()
+
+response = requests.patch(BASE + "video/3",{'name':'c++'})
+
+print("PATCH")
+print("Data : ",response.json())
+print("Status code : ",response.status_code)
+print("Encoding : ",response.encoding)
+print("Headers : ",response.headers['content-type'])
+print("---------------------")
+
+input()
+
+response = requests.get(BASE + "video/3")
+
+print("GET")
+print("Data : ",response.json())
+print("Status code : ",response.status_code)
+print("Encoding : ",response.encoding)
+print("Headers : ",response.headers['content-type'])
+print("---------------------")

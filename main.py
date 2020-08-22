@@ -20,11 +20,20 @@ class VideoModel(db.Model):
 
 # db.create_all()
 
-# validating data passed through url
+# post : validating data passed through url
 video_put_args = reqparse.RequestParser()
 video_put_args.add_argument("name", type=str, help="Wrong data! Missing name", required=True)
 video_put_args.add_argument("likes", type=int, help="Wrong data! Missing likes", required=True)
 video_put_args.add_argument("views", type=int, help="Wrong data! Missing views", required=True)
+
+# patch : validating data passed through url
+video_patch_args = reqparse.RequestParser()
+video_patch_args.add_argument("name", type=str, help="Wrong data! Missing name")
+video_patch_args.add_argument("likes", type=int, help="Wrong data! Missing name")
+video_patch_args.add_argument("views", type=int, help="Wrong data! Missing name")
+
+
+
 
 # how the function will throw out the data 
 resource_fields = {
@@ -48,7 +57,7 @@ class Video(Resource):
         result = VideoModel.query.filter_by(id = video_id).first()
         # if video not found
         if result is None :
-            abort(404, message = 'Video not found')
+            abort(404, message = 'Error: Video not found')
         return result
 
 
@@ -61,7 +70,7 @@ class Video(Resource):
         result = VideoModel.query.filter_by(id=video_id).first()
         # if taken throw error
         if result:
-            abort(409, message = 'Video id already taken')
+            abort(409, message = 'Error: Video id already taken')
         
         # save the data
         video_data = VideoModel(id=video_id, name=args['name'], views=args['views'], likes=args['likes'])
@@ -76,10 +85,26 @@ class Video(Resource):
             db.session.commit()
             return 'Video deleted'
         
-        abort(204, message = 'Video id not available')
+        abort(204, message = 'Error: Video id not available')
 
-
-# working with the database 
+    # resource fields called so that it returns json format
+    @marshal_with(resource_fields)
+    def patch(self, video_id):
+        args = video_patch_args.parse_args()
+        # check if the video is present or not
+        result = VideoModel.query.filter_by(id=video_id).first()
+        
+        # if result found 
+        if result :
+            if args['name']:
+                result.name = args['name']
+            if args['views']:
+                result.views = args['views']
+            if args['likes']:
+                result.likes = args['likes']
+            db.session.commit()
+            return result
+        abort(204, message='Error: Video id not found') 
 
 
 
