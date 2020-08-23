@@ -1,4 +1,5 @@
 import requests
+import time
 
 BASE = "http://127.0.0.1:5000/"
 
@@ -19,8 +20,9 @@ for i  in range(len(data)):
     print("Encoding : " ,response.encoding)
     print("Header : " , response.headers['content-type'])
     print("---------------------")
+    time.sleep(2)
 
-input()
+#input()
 
 response = requests.get(BASE + "video/3")
 
@@ -31,7 +33,8 @@ print("Encoding : ",response.encoding)
 print("Headers : ",response.headers['content-type'])
 print("---------------------")
 
-input()
+time.sleep(2)
+#input()
 
 response = requests.delete(BASE + "video/2")
 
@@ -42,7 +45,8 @@ print("Encoding : ",response.encoding)
 print("Headers : ",response.headers['content-type'])
 print("---------------------")
 
-input()
+time.sleep(2)
+#input()
 
 response = requests.get(BASE + "video/2")
 
@@ -53,7 +57,8 @@ print("Encoding : ",response.encoding)
 print("Headers : ",response.headers['content-type'])
 print("---------------------")
 
-input()
+time.sleep(2)
+#input()
 
 response = requests.patch(BASE + "video/3",{'name':'c++'})
 
@@ -64,7 +69,8 @@ print("Encoding : ",response.encoding)
 print("Headers : ",response.headers['content-type'])
 print("---------------------")
 
-input()
+time.sleep(2)
+#input()
 
 response = requests.get(BASE + "video/3")
 
@@ -73,4 +79,4 @@ print("Data : ",response.json())
 print("Status code : ",response.status_code)
 print("Encoding : ",response.encoding)
 print("Headers : ",response.headers['content-type'])
-print("---------------------")
+print("--------- DONE -----------")
